@@ -72,8 +72,7 @@ class AVLTree():
                 return temp
             temp = self.getMinValueNode(root.right)
             root.key = temp.key
-            root.right = self.delete_node(root.right,
-                                          temp.key)
+            root.right = self.delete_node(root.right, temp.key)
         if root is None:
             return root
 
