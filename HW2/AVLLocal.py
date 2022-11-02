@@ -148,7 +148,11 @@ class AVLTree():
 myTree = AVLTree()
 root = None
 nums = [10, 20, 30, 40, 50, 90, 80]
+delete_nums = [20, 40, 30]
 for num in nums:
     root = myTree.insert_node(root, num)
+
+for num in delete_nums:
+    root = myTree.delete_node(root, num)
 
 myTree.postOrder(root)

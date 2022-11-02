@@ -53,31 +53,77 @@ class AVLtree():
 
         # get height
         node.height = max(self.getHeight(node.left), self.getHeight(node.right)) +1 
+        
         # perform rotations
-
         node.balance = self.getHeight(node.left) - self.getHeight(node.right)
 
         if node.balance < -1:
             if data < node.right.data:
                 print("RL")
+                operations.append("RL")
                 node.right = self.LLrotation(node.right)
                 return self.RRrotation(node)           
             else:
                 print("RR")
+                operations.append("RR")
                 return self.RRrotation(node)
         if node.balance > 1:
             if data < node.left.data:
                 print("LL")
+                operations.append("LL")
                 return self.LLrotation(node)
             else:
                 print("LR")
+                operations.append("LR")
                 node.left = self.RRrotation(node.left)
                 return self.LLrotation(node)
 
         return node
 
-    def deleteNode(self, node):
-        pass
+    def deleteNode(self, node, data):
+        if node == None:
+            return node
+        elif data < node.data:
+            node.left = self.deleteNode(node.left, data)
+        elif data > node.data:
+            node.right = self.deleteNode(node.right, data)
+        else:   # they are equal
+            if node.left == None:
+                return node.right
+            elif node.right == None:
+                return node.left
+            else:
+                # the node got deleted have two children
+                pass
+
+        # get height
+        node.height = max(self.getHeight(node.left), self.getHeight(node.right)) +1 
+        
+        # perform rotations
+        node.balance = self.getHeight(node.left) - self.getHeight(node.right)
+
+        if node.balance < -1:
+            if data < node.right.data:
+                print("D-RL")
+                operations.append("D-RL")
+                node.right = self.LLrotation(node.right)
+                return self.RRrotation(node)           
+            else:
+                print("D-RR")
+                operations.append("D-RR")
+                return self.RRrotation(node)
+        if node.balance > 1:
+            if data < node.left.data:
+                print("D-LL")
+                operations.append("D-LL")
+                return self.LLrotation(node)
+            else:
+                print("D-LR")
+                operations.append("D-LR")
+                node.left = self.RRrotation(node.left)
+                return self.LLrotation(node)
+
+        return node
 
         
     def postOrder(self, node):
@@ -105,12 +151,19 @@ class AVLtree():
     
 myTree = AVLtree()
 root = None
-inputs = [3, 1, 2]
+inputs = [63,9,19,27,18,70,95,99]
+delete_inputs = [27, 5, 53, 99, 53]
+operations = []
 for num in inputs:
     root = myTree.appendNode(root, num)
+    print(f'Now processing number: {num}')
+    myTree.postOrderHeight(root)
+    print()
+    myTree.postOrderBalance(root)
+    print()
 
 myTree.postOrder(root)
 print()
-myTree.postOrderHeight(root)
-print()
-myTree.postOrderBalance(root)
+for operation in operations:
+    print(operation, end=" ")
+
