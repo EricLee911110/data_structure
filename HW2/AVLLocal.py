@@ -128,6 +128,7 @@ class AVLTree():
     # Get balance factore of the node
     def getBalance(self, root):
         if not root:
+            print("I run here")
             return 0
         return self.getHeight(root.left) - self.getHeight(root.right)
 
@@ -146,7 +147,7 @@ class AVLTree():
 
 myTree = AVLTree()
 root = None
-nums = [10, 20, 30]
+nums = [10, 20, 30, 40, 50, 90, 80]
 for num in nums:
     root = myTree.insert_node(root, num)
 
