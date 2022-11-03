@@ -69,6 +69,8 @@ class AVLTree():
             if root.left is None:
                 temp = root.right
                 root = None
+                print("poke")
+                myTree.postOrder(temp)
                 return temp
             elif root.right is None:
                 temp = root.left
@@ -108,7 +110,9 @@ class AVLTree():
                 operations.append("R-1")
                 return self.leftRotate(root)
             elif self.getBalance(root.right) == 0:
-                #print("RR") # R0 #R-1
+                print("RR ", root.key) # R0 #R-1
+                print("poke: ")
+                myTree.postOrder(root)
                 operations.append("R0")
                 return self.leftRotate(root)
             else:
@@ -162,7 +166,7 @@ class AVLTree():
             return
         self.postOrder(root.left)
         self.postOrder(root.right)
-        #print("{0} ".format(root.key), end="")
+        print(f'{root.key}', end="")
     
     def inOrder(self, node):
         if node == None:
@@ -193,7 +197,8 @@ while True:
 operations = []
 for num in inputs:
     root = myTree.insert_node(root, num)
-    #print(f'Now processing number: {num}')
+    myTree.postOrder(root)
+    print("")
 
 #myTree.postOrder(root)
 
@@ -207,6 +212,9 @@ for command in delete_inputs:
     if operation == "D":
         #print("delete")
         myTree.delete_node(root, num)
+
+    myTree.postOrder(root)
+    print("")
 
     #myTree.postOrder(root)
     #print()

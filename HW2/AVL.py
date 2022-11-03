@@ -207,6 +207,7 @@ while True:
 operations = []
 for num in inputs:
     root = myTree.appendNode(root, num)
+    myTree.postOrder(root)
     #print(f'Now processing number: {num}')
 
 #myTree.postOrder(root)
