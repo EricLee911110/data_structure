@@ -94,3 +94,23 @@ select1, selectionResult = selectionSort(inputs[:], 0)
 #print(select1, selectionResult)
 
 final_sorted_list = bubbleSort(inputs[:], 0, False)
+
+print("Bubble: ", end="")
+print(f'{bubbleSwap1}, {bubbleSwap2};', end="")
+for i in range(len(bubbleResult)):
+    print(f' {bubbleResult[i]}', end="")
+
+print()
+print("Insertion:", end="")
+for i in range(len(insertionResult)):
+    print(f' {insertionResult[i]}', end="")
+
+print()
+print(f'Selection: {select1};', end="")
+for i in range(len(selectionResult)):
+    print(f' {selectionResult[i]}', end="")
+
+print()
+for i in range(len(final_sorted_list) - 1):
+    print(f'{final_sorted_list[i]} ', end="")
+print(final_sorted_list[len(final_sorted_list) - 1])
