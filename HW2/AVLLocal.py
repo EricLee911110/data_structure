@@ -31,23 +31,27 @@ class AVLTree():
         balanceFactor = self.getBalance(root)
         if balanceFactor > 1:
             if key < root.left.key:
-                print("LL")
+                #print("LL")
+                operations.append("LL")
                 return self.rightRotate(root)
             else:
-                print("LR")
+                #print("LR")
+                operations.append("LR")
                 root.left = self.leftRotate(root.left)
                 return self.rightRotate(root)
 
         if balanceFactor < -1:
             if key > root.right.key:
-                print("RR")
+                #print("RR")
+                operations.append("RR")
                 return self.leftRotate(root)
             else:
-                print("RL")
+                #print("RL")
+                operations.append("RL")
                 root.right = self.rightRotate(root.right)
                 return self.leftRotate(root)
 
-        print(f'Height for node {root.key} is: {root.height}')
+        #print(f'Height for node {root.key} is: {root.height}')
 
         return root
 
@@ -65,6 +69,8 @@ class AVLTree():
             if root.left is None:
                 temp = root.right
                 root = None
+                print("poke")
+                myTree.postOrder(temp)
                 return temp
             elif root.right is None:
                 temp = root.left
@@ -84,15 +90,34 @@ class AVLTree():
 
         # Balance the tree
         if balanceFactor > 1:
-            if self.getBalance(root.left) >= 0:
+            if self.getBalance(root.left) == 0:
+                operations.append("R0")
+                #print("LL") # R0 R1
                 return self.rightRotate(root)
+            elif self.getBalance(root.left) > 0:
+                #print("LL") # R0 R1
+                operations.append("R1")
+                return self.rightRotate(root)    
             else:
+                #print("LR") # R-1
+                operations.append("R-1")
                 root.left = self.leftRotate(root.left)
                 return self.rightRotate(root)
+
         if balanceFactor < -1:
-            if self.getBalance(root.right) <= 0:
+            if self.getBalance(root.right) < 0:
+                #print("RR") # R0 #R-1
+                operations.append("R-1")
+                return self.leftRotate(root)
+            elif self.getBalance(root.right) == 0:
+                print("RR ", root.key) # R0 #R-1
+                print("poke: ")
+                myTree.postOrder(root)
+                operations.append("R0")
                 return self.leftRotate(root)
             else:
+                #print("RL") # R1
+                operations.append("R1")
                 root.right = self.rightRotate(root.right)
                 return self.leftRotate(root)
         return root
@@ -127,7 +152,7 @@ class AVLTree():
     # Get balance factore of the node
     def getBalance(self, root):
         if not root:
-            print("I run here")
+            #print("I run here")
             return 0
         return self.getHeight(root.left) - self.getHeight(root.right)
 
@@ -141,17 +166,74 @@ class AVLTree():
             return
         self.postOrder(root.left)
         self.postOrder(root.right)
-        print("{0} ".format(root.key), end="")
+        print(f'{root.key}', end="")
+    
+    def inOrder(self, node):
+        if node == None:
+            return
+        self.inOrder(node.left)
+        resultTree.append(node.key)
+        self.inOrder(node.right)
         
 
 myTree = AVLTree()
 root = None
-nums = [10, 20, 30, 40, 50, 90, 80]
-delete_nums = [20, 40, 30]
-for num in nums:
+
+delete_inputs = []
+
+line = input()
+inputs = list(map(int, line.split(',')))
+
+
+while True:
+    line = input()
+    if line == '':
+        break
+    delete_inputs.append(line)
+
+
+
+
+operations = []
+for num in inputs:
     root = myTree.insert_node(root, num)
+    myTree.postOrder(root)
+    print("")
 
-for num in delete_nums:
-    root = myTree.delete_node(root, num)
+#myTree.postOrder(root)
 
-myTree.postOrder(root)
+for command in delete_inputs:
+    operation = command.split(' ')[0]
+    num = int(command.split(' ')[1])
+    #print(f'Now processing number: {num}')
+    if operation == "I":
+        #print("appending")
+        myTree.insert_node(root, num)
+    if operation == "D":
+        #print("delete")
+        myTree.delete_node(root, num)
+
+    myTree.postOrder(root)
+    print("")
+
+    #myTree.postOrder(root)
+    #print()
+
+#print("result: \n")
+#print reuslt
+resultTree = []
+myTree.inOrder(root)
+#print(resultTree)
+for i in range(len(resultTree)):
+    if i == len(resultTree) -1:
+        print(str(resultTree[i]))
+    else:
+        print(str(resultTree[i]), end=" ")
+
+print(str(len(operations)))
+
+for i in range(len(operations)):
+    if i == len(operations) -1:
+        print(str(operations[i]))
+    else:
+        print(str(operations[i]), end=",")
