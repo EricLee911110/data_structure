@@ -1,2 +1,4 @@
-a = float("inf")
-print(a > 0)
+a = " hel  lo "
+a = a.strip().replace('  ', ' ')
+a = a.split(' ')
+print(a)
